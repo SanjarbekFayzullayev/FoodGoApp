@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/details_page.dart';
+import 'package:food_app/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -43,14 +45,23 @@ class _HomePageState extends State<HomePage> {
                       )
                     ],
                   ),
-                  Container(
-                    height: 60,
-                    width: 60,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      image: DecorationImage(
-                          image: AssetImage("assets/images/user.png"),
-                          fit: BoxFit.cover),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfilePage(isNavigation: true,),
+                          ));
+                    },
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        image: DecorationImage(
+                            image: AssetImage("assets/images/user.png"),
+                            fit: BoxFit.cover),
+                      ),
                     ),
                   )
                 ],
@@ -74,18 +85,18 @@ class _HomePageState extends State<HomePage> {
                             hintText: "Search",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(
-                                  color: Colors.white, width: 2.0),
+                              borderSide:
+                                  BorderSide(color: Colors.white, width: 2.0),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(
-                                  color: Colors.white, width: 1.5),
+                              borderSide:
+                                  BorderSide(color: Colors.white, width: 1.5),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(
-                                  color: Colors.white, width: 2.0),
+                              borderSide:
+                                  BorderSide(color: Colors.white, width: 2.0),
                             ),
                           ),
                         ),
@@ -162,49 +173,62 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Material(
-                        borderRadius: BorderRadius.circular(20),
-                        elevation: 8,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Center(
-                                  child: Image.asset(
-                                "assets/images/food.png",
-                                width: 120,
-                              )),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Cheeseburger",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text("Wendy's Burger"),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                      ),
-                                      Text("4.8"),
-                                    ],
-                                  ),
-                                  IconButton(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailsPage(),
+                              ));
+                        },
+                        child: Material(
+                          borderRadius: BorderRadius.circular(20),
+                          elevation: 8,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Center(
+                                    child: Image.asset(
+                                  "assets/images/food.png",
+                                  width: 120,
+                                )),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Cheeseburger",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text("Wendy's Burger"),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        ),
+                                        Text("4.8"),
+                                      ],
+                                    ),
+                                    IconButton(
                                       onPressed: () {},
-                                      icon: Icon(Icons.favorite_border))
-                                ],
-                              )
-                            ],
+                                      icon: Icon(
+                                        Icons.favorite_border,
+                                        color: Colors.black,
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
