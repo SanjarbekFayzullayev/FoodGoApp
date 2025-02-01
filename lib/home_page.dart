@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/details_page.dart';
+import 'package:food_app/model/foods_model.dart';
 import 'package:food_app/profile_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -50,7 +51,9 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProfilePage(isNavigation: true,),
+                            builder: (context) => ProfilePage(
+                              isNavigation: true,
+                            ),
                           ));
                     },
                     child: Container(
@@ -127,7 +130,7 @@ class _HomePageState extends State<HomePage> {
                 height: 50,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: type.length,
+                  itemCount: FoodsModel.types.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(right: 8.0, left: 8),
@@ -137,7 +140,7 @@ class _HomePageState extends State<HomePage> {
                           setState(() {});
                         },
                         child: Container(
-                          width: 80,
+                          width: 90,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: selectedIndex == index
@@ -149,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                             padding: const EdgeInsets.only(
                                 bottom: 8.0, top: 8, left: 12, right: 12),
                             child: Text(
-                              type[index],
+                              FoodsModel.types[index],
                               style: TextStyle(
                                   color: selectedIndex == index
                                       ? Colors.white
@@ -168,18 +171,34 @@ class _HomePageState extends State<HomePage> {
               ),
               Expanded(
                 child: GridView.builder(
+
+                  itemCount:FoodsModel.types[selectedIndex]=="All"?FoodsModel.data.length : FoodsModel.data.where((food) =>
+                  food.type == FoodsModel.types[selectedIndex]).length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, childAspectRatio: 0.78),
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.76
+                  ),
                   itemBuilder: (context, index) {
+                    var filteredList = FoodsModel.types[selectedIndex]=="All"?FoodsModel.data: FoodsModel.data
+                        .where((food) => food.type == FoodsModel.types[selectedIndex])
+                        .toList();
+
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DetailsPage(),
-                              ));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailsPage(
+                                name: filteredList[index].name,
+                                description: filteredList[index].description,
+                                imgUrl: filteredList[index].imgUrl,
+                                minutes: filteredList[index].minutes,
+                                reting: filteredList[index].reting,
+                              ),
+                            ),
+                          );
                         },
                         child: Material(
                           borderRadius: BorderRadius.circular(20),
@@ -190,43 +209,36 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Center(
-                                    child: Image.asset(
-                                  "assets/images/food.png",
-                                  width: 120,
-                                )),
+                                  child: Image.asset(
+                                    filteredList[index].imgUrl,
+                                    width: 120,
+                                  ),
+                                ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Cheeseburger",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                      filteredList[index].name,
+                                      style: TextStyle(fontWeight: FontWeight.bold),
                                     ),
-                                    Text("Wendy's Burger"),
+                                    Text(filteredList[index].type),
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       children: [
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                        ),
-                                        Text("4.8"),
+                                        Icon(Icons.star, color: Colors.amber),
+                                        Text(filteredList[index].reting),
                                       ],
                                     ),
                                     IconButton(
                                       onPressed: () {},
-                                      icon: Icon(
-                                        Icons.favorite_border,
-                                        color: Colors.black,
-                                      ),
-                                    )
+                                      icon: Icon(Icons.favorite_border, color: Colors.black),
+                                    ),
                                   ],
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -236,6 +248,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
+
             ],
           ),
         ),

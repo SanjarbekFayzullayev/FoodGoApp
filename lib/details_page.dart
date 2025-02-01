@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 
 class DetailsPage extends StatelessWidget {
-  const DetailsPage({Key? key}) : super(key: key);
+  String? name;
+  String? description;
+  String? imgUrl;
+  String? minutes;
+  String? reting;
+
+  DetailsPage(
+      {this.name,
+      this.description,
+      this.imgUrl,
+      this.minutes,
+      this.reting,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +45,9 @@ class DetailsPage extends StatelessWidget {
                   ),
                 ],
               ),
-              Image.asset("assets/images/food_detail.png"),
+              Image.asset(imgUrl!),
               Text(
-                "Cheeseburger Wendy's Burger",
+                name!,
                 style: TextStyle(
                     color: Color(0xff3C2F2F),
                     fontSize: 26,
@@ -48,17 +60,17 @@ class DetailsPage extends StatelessWidget {
                 children: [
                   Icon(Icons.star, color: Colors.amber, size: 20),
                   Text(
-                    "4.9",
+                    reting!,
                     style: TextStyle(color: Colors.grey, fontSize: 16),
                   ),
                   SizedBox(width: 16),
-                  Text("26 mins",
+                  Text(minutes!,
                       style: TextStyle(color: Colors.grey, fontSize: 16)),
                 ],
               ),
               const SizedBox(height: 12),
               Text(
-                "The Cheeseburger Wendy's Burger is a classic fast food burger that packs a punch of flavor in every bite. Made with a juicy beef patty cooked to perfection, it's topped with melted American cheese, crispy lettuce, ripe tomato, and crunchy pickles.",
+                description!,
                 style: TextStyle(fontSize: 18, color: Colors.grey),
               ),
             ],
