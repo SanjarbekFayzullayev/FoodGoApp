@@ -171,18 +171,25 @@ class _HomePageState extends State<HomePage> {
               ),
               Expanded(
                 child: GridView.builder(
-
-                  itemCount:FoodsModel.types[selectedIndex]=="All"?FoodsModel.data.length : FoodsModel.data.where((food) =>
-                  food.type == FoodsModel.types[selectedIndex]).length,
+                  itemCount:
+                      FoodsModel.types[selectedIndex] == FoodsModel.types[0]
+                          ? FoodsModel.data.length
+                          : FoodsModel.data
+                              .where((food) =>
+                                  food.type == FoodsModel.types[selectedIndex])
+                              .length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.76
-                  ),
+                      crossAxisCount: 2, childAspectRatio: 0.76),
                   itemBuilder: (context, index) {
-                    var filteredList = FoodsModel.types[selectedIndex]=="All"?FoodsModel.data: FoodsModel.data
-                        .where((food) => food.type == FoodsModel.types[selectedIndex])
-                        .toList();
-
+                    var filter = FoodsModel.types[selectedIndex] ==
+                            FoodsModel.types[0]
+                        ? FoodsModel.data
+                        : FoodsModel.data
+                            .where(
+                              (food) =>
+                                  food.type == FoodsModel.types[selectedIndex],
+                            )
+                            .toList();
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
@@ -191,11 +198,11 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => DetailsPage(
-                                name: filteredList[index].name,
-                                description: filteredList[index].description,
-                                imgUrl: filteredList[index].imgUrl,
-                                minutes: filteredList[index].minutes,
-                                reting: filteredList[index].reting,
+                                name: filter[index].name,
+                                description: filter[index].description,
+                                imgUrl: filter[index].imgUrl,
+                                minutes: filter[index].minutes,
+                                reting: filter[index].reting,
                               ),
                             ),
                           );
@@ -210,7 +217,7 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 Center(
                                   child: Image.asset(
-                                    filteredList[index].imgUrl,
+                                    filter[index].imgUrl,
                                     width: 120,
                                   ),
                                 ),
@@ -218,24 +225,27 @@ class _HomePageState extends State<HomePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      filteredList[index].name,
-                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                      filter[index].name,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                    Text(filteredList[index].type),
+                                    Text(filter[index].type),
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       children: [
                                         Icon(Icons.star, color: Colors.amber),
-                                        Text(filteredList[index].reting),
+                                        Text(filter[index].reting),
                                       ],
                                     ),
                                     IconButton(
                                       onPressed: () {},
-                                      icon: Icon(Icons.favorite_border, color: Colors.black),
+                                      icon: Icon(Icons.favorite_border,
+                                          color: Colors.black),
                                     ),
                                   ],
                                 ),
@@ -248,7 +258,6 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
-
             ],
           ),
         ),
